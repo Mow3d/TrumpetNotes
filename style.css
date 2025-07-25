@@ -1,9 +1,40 @@
-#imageContainer {
+body {
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-top: 20px;
-    text-align: center;
 }
 
-img {
-    max-width: 100%;
-    height: auto;
+.hidden {
+    display: none;
+}
+
+#gameContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#imageContainer img {
+    max-width: 300px;
+    margin-top: 20px;
+}
+
+#optionsContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#optionsContainer button {
+    margin: 5px;
+    padding: 15px 25px;
+    font-size: 1.2em;
+}
+
+#nextNoteBtn {
+    margin-top: 20px;
+    padding: 15px 25px;
+    font-size: 1.2em;
 }

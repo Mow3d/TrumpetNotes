@@ -6,10 +6,36 @@
     <link rel="stylesheet" href="style.css"> <!-- Si tienes un archivo CSS -->
 </head>
 <body>
-    <button id="generateButton">Generar Nota</button>
-    <div id="imageContainer">
-        <!-- La imagen generada se mostrará aquí -->
+    <h1>Estudiar Trompeta</h1>
+
+    <div id="modeSelection">
+        <h2>Elige un modo:</h2>
+        <button id="practiceModeBtn">Modo Práctica</button>
+        <button id="soundModeBtn">Adivinar por Sonido</button>
+        <button id="staffModeBtn">Adivinar por Pentagrama</button>
+        <button id="fingeringModeBtn">Adivinar por Digitación</button>
     </div>
-    <script src="script.js"></script> <!-- JavaScript que maneja la lógica -->
+
+    <div id="gameContainer" class="hidden">
+        <div id="questionContainer">
+            <!-- Aquí se mostrará la pregunta (imagen o botón de sonido) -->
+        </div>
+        <div id="optionsContainer">
+            <!-- Aquí se generarán los botones de respuesta -->
+        </div>
+        <div id="resultContainer">
+            <!-- Aquí se mostrará si la respuesta es correcta o incorrecta -->
+        </div>
+        <button id="nextNoteBtn">Siguiente Nota</button>
+    </div>
+
+    <div id="practiceContainer" class="hidden">
+        <button id="generateButton">Generar Nota de Práctica</button>
+        <div id="imageContainer">
+            <!-- La imagen generada se mostrará aquí -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
