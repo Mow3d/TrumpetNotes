@@ -1,18 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
     const notas = [
-        { nombre: 'Do4', imagen: 'Notas/Do4.png', sonido: 'sonidos/Do4.mp3' },
-        { nombre: 'Re', imagen: 'Notas/Re.png', sonido: 'sonidos/Re.mp3' },
-        { nombre: 'Mi', imagen: 'Notas/Mi.png', sonido: 'sonidos/Mi.mp3' },
-        { nombre: 'Fa', imagen: 'Notas/Fa.png', sonido: 'sonidos/Fa.mp3' },
-        { nombre: 'Sol', imagen: 'Notas/Sol.png', sonido: 'sonidos/Sol.mp3' },
-        { nombre: 'La', imagen: 'Notas/La.png', sonido: 'sonidos/La.mp3' },
-        { nombre: 'Si', imagen: 'Notas/Si.png', sonido: 'sonidos/Si.mp3' },
-        { nombre: 'Do5', imagen: 'Notas/Do5.png', sonido: 'sonidos/Do5.mp3' },
-        { nombre: 'DoSostenido', imagen: 'Notas/DoSostenido.png', sonido: 'sonidos/DoSostenido.mp3' },
-        { nombre: 'FaSostenido', imagen: 'Notas/FaSostenido.png', sonido: 'sonidos/FaSostenido.mp3' },
-        { nombre: 'LaSostenido', imagen: 'Notas/LaSostenido.png', sonido: 'sonidos/LaSostenido.mp3' },
-        { nombre: 'ReSostenido', imagen: 'Notas/ReSostenido.png', sonido: 'sonidos/ReSostenido.mp3' },
-        { nombre: 'SolSostenido', imagen: 'Notas/SolSostenido.png', sonido: 'sonidos/SolSostenido.mp3' }
+        { nombre: 'A#3', imagen: 'Notas/A#3.png', sonido: 'sonidos/A#3.wav' },
+        { nombre: 'A#4', imagen: 'Notas/A#4.png', sonido: 'sonidos/A#4.wav' },
+        { nombre: 'A#5', imagen: 'Notas/A#5.png', sonido: 'sonidos/A#5.wav' },
+        { nombre: 'A3', imagen: 'Notas/A3.png', sonido: 'sonidos/A3.wav' },
+        { nombre: 'A4', imagen: 'Notas/A4.png', sonido: 'sonidos/A4.wav' },
+        { nombre: 'A5', imagen: 'Notas/A5.png', sonido: 'sonidos/A5.wav' },
+        { nombre: 'B3', imagen: 'Notas/B3.png', sonido: 'sonidos/B3.wav' },
+        { nombre: 'B4', imagen: 'Notas/B4.png', sonido: 'sonidos/B4.wav' },
+        { nombre: 'B5', imagen: 'Notas/B5.png', sonido: 'sonidos/B5.wav' },
+        { nombre: 'C#4', imagen: 'Notas/C#4.png', sonido: 'sonidos/C#4.wav' },
+        { nombre: 'C#5', imagen: 'Notas/C#5.png', sonido: 'sonidos/C#5.wav' },
+        { nombre: 'C4', imagen: 'Notas/C4.png', sonido: 'sonidos/C4.wav' },
+        { nombre: 'C5', imagen: 'Notas/C5.png', sonido: 'sonidos/C5.wav' },
+        { nombre: 'C6', imagen: 'Notas/C6.png', sonido: 'sonidos/C6.wav' },
+        { nombre: 'D#4', imagen: 'Notas/D#4.png', sonido: 'sonidos/D#4.wav' },
+        { nombre: 'D#5', imagen: 'Notas/D#5.png', sonido: 'sonidos/D#5.wav' },
+        { nombre: 'D4', imagen: 'Notas/D4.png', sonido: 'sonidos/D4.wav' },
+        { nombre: 'D5', imagen: 'Notas/D5.png', sonido: 'sonidos/D5.wav' },
+        { nombre: 'E4', imagen: 'Notas/E4.png', sonido: 'sonidos/E4.wav' },
+        { nombre: 'E5', imagen: 'Notas/E5.png', sonido: 'sonidos/E5.wav' },
+        { nombre: 'F#3', imagen: 'Notas/F#3.png', sonido: 'sonidos/F#3.wav' },
+        { nombre: 'F#4', imagen: 'Notas/F#4.png', sonido: 'sonidos/F#4.wav' },
+        { nombre: 'F#5', imagen: 'Notas/F#5.png', sonido: 'sonidos/F#5.wav' },
+        { nombre: 'F4', imagen: 'Notas/F4.png', sonido: 'sonidos/F4.wav' },
+        { nombre: 'F5', imagen: 'Notas/F5.png', sonido: 'sonidos/F5.wav' },
+        { nombre: 'G#3', imagen: 'Notas/G#3.png', sonido: 'sonidos/G#3.wav' },
+        { nombre: 'G#4', imagen: 'Notas/G#4.png', sonido: 'sonidos/G#4.wav' },
+        { nombre: 'G#5', imagen: 'Notas/G#5.png', sonido: 'sonidos/G#5.wav' },
+        { nombre: 'G3', imagen: 'Notas/G3.png', sonido: 'sonidos/G3.wav' },
+        { nombre: 'G4', imagen: 'Notas/G4.png', sonido: 'sonidos/G4.wav' },
+        { nombre: 'G5', imagen: 'Notas/G5.png', sonido: 'sonidos/G5.wav' }
     ];
 
     let notaActual = null;
@@ -48,8 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function mostrarNotaAleatoria() {
         const notaAleatoria = notas[Math.floor(Math.random() * notas.length)];
-        imageContainer.innerHTML = `<img src="${notaAleatoria.imagen}" alt="${notaAleatoria.nombre}">`;
-        const audio = new Audio(notaAleatoria.sonido);
+        imageContainer.innerHTML = `<img src="${encodeURI(notaAleatoria.imagen)}" alt="${notaAleatoria.nombre}">`;
+        const audio = new Audio(encodeURI(notaAleatoria.sonido));
         audio.play();
     }
 
@@ -91,13 +109,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const playSoundBtn = document.createElement('button');
             playSoundBtn.textContent = 'Reproducir Sonido';
             playSoundBtn.addEventListener('click', () => {
-                const audio = new Audio(notaActual.sonido);
+                const audio = new Audio(encodeURI(notaActual.sonido));
                 audio.play();
             });
             questionContainer.appendChild(playSoundBtn);
         } else { // Para 'pentagrama' y 'digitacion'
             const img = document.createElement('img');
-            img.src = notaActual.imagen;
+            img.src = encodeURI(notaActual.imagen);
             img.alt = 'Nota a adivinar';
             questionContainer.appendChild(img);
         }
