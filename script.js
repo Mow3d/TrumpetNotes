@@ -54,6 +54,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const generateButton = document.getElementById('generateButton');
     const imageContainer = document.getElementById('imageContainer');
+    const noteNameDisplay = document.getElementById('noteNameDisplay');
+    const revealNoteBtn = document.getElementById('revealNoteBtn');
+
+    // Referencias a los radio buttons de dificultad
+    const difficultyRadios = document.querySelectorAll('input[name="difficulty"]');
+
+    // Mapa de notas a valores numéricos para facilitar la comparación de rangos
+    const noteValueMap = {
+        'C': 0, 'CS': 1, 'D': 2, 'DS': 3, 'E': 4, 'F': 5, 'FS': 6, 'G': 7, 'GS': 8, 'A': 9, 'AS': 10, 'B': 11
+    };
 
     // --- Lógica de Inicialización ---
     // Oculta los contenedores de juego y práctica y muestra la selección de modo al cargar la página.
@@ -62,16 +72,27 @@ document.addEventListener('DOMContentLoaded', () => {
         practiceContainer.classList.add('hidden');
         modeSelection.classList.remove('hidden');
         nextNoteBtn.classList.add('hidden'); // Ocultar el botón de siguiente nota al inicio
+        noteNameDisplay.classList.add('hidden'); // Ocultar el nombre de la nota al inicio
+        revealNoteBtn.classList.remove('hidden'); // Mostrar el botón de revelar nota al inicio
     }
 
     // --- Lógica del Modo Práctica ---
     // Asigna el evento click al botón de generar nota aleatoria.
     generateButton.addEventListener('click', mostrarNotaAleatoria);
+    revealNoteBtn.addEventListener('click', () => {
+        noteNameDisplay.textContent = notaActual.nombre;
+        noteNameDisplay.classList.remove('hidden');
+        revealNoteBtn.classList.add('hidden');
+    });
 
     // Muestra una nota aleatoria en el modo práctica y reproduce su sonido.
     function mostrarNotaAleatoria() {
         generateButton.disabled = false; // Asegurarse de que el botón esté habilitado
-        const notaAleatoria = notas[Math.floor(Math.random() * notas.length)];
+        noteNameDisplay.classList.add('hidden'); // Ocultar el nombre de la nota al generar una nueva
+        revealNoteBtn.classList.remove('hidden'); // Mostrar el botón de revelar nota al generar una nueva
+        const notasFiltradas = getFilteredNotes();
+        const notaAleatoria = notasFiltradas[Math.floor(Math.random() * notasFiltradas.length)];
+        notaActual = notaAleatoria; // Almacenar la nota actual para el botón revelar
         imageContainer.innerHTML = `<img src="${notaAleatoria.imagen}" alt="${notaAleatoria.nombre}">`;
         const audio = new Audio(notaAleatoria.sonido);
         audio.play();
@@ -111,7 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
         optionsContainer.innerHTML = ''; // Limpia las opciones anteriores
 
         // 1. Seleccionar una nota correcta al azar
-        notaActual = notas[Math.floor(Math.random() * notas.length)];
+        const notasFiltradas = getFilteredNotes();
+        notaActual = notasFiltradas[Math.floor(Math.random() * notasFiltradas.length)];
 
         // 2. Presentar la pregunta según el modo
         questionContainer.innerHTML = ''; // Limpia la pregunta anterior
@@ -137,10 +159,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Genera y muestra las opciones de respuesta para la nota actual.
     function generarOpciones() {
+        const notasFiltradas = getFilteredNotes();
         const opciones = [notaActual.nombre]; // La opción correcta
         // Añade 3 opciones aleatorias más, asegurándose de que no se repitan.
         while (opciones.length < 4) {
-            const notaAleatoria = notas[Math.floor(Math.random() * notas.length)].nombre;
+            const notaAleatoria = notasFiltradas[Math.floor(Math.random() * notasFiltradas.length)].nombre;
             if (!opciones.includes(notaAleatoria)) {
                 opciones.push(notaAleatoria);
             }
@@ -172,6 +195,44 @@ document.addEventListener('DOMContentLoaded', () => {
             resultContainer.style.color = 'red';
         }
         nextNoteBtn.classList.remove('hidden'); // Muestra el botón de siguiente nota
+    }
+
+    // Función para obtener las notas filtradas según el nivel de dificultad seleccionado
+    function getFilteredNotes() {
+        let selectedDifficulty = document.querySelector('input[name="difficulty"]:checked').value;
+        let filteredNotes = [];
+
+        switch (selectedDifficulty) {
+            case 'level1': // FS3 - C4
+                filteredNotes = notas.filter(nota => {
+                    const noteName = nota.nombre.slice(0, -1); // Elimina el número de octava
+                    const octave = parseInt(nota.nombre.slice(-1)); // Obtiene el número de octava
+                    const noteValue = noteValueMap[noteName];
+
+                    // FS3 (FS:6, Octave:3) a C4 (C:0, Octave:4)
+                    return (octave === 3 && noteValue >= noteValueMap['FS']) ||
+                           (octave === 4 && noteValue <= noteValueMap['C']);
+                });
+                break;
+            case 'level2': // FS3 - C5
+                filteredNotes = notas.filter(nota => {
+                    const noteName = nota.nombre.slice(0, -1);
+                    const octave = parseInt(nota.nombre.slice(-1));
+                    const noteValue = noteValueMap[noteName];
+
+                    // FS3 (FS:6, Octave:3) a C5 (C:0, Octave:5)
+                    return (octave === 3 && noteValue >= noteValueMap['FS']) ||
+                           (octave === 4) ||
+                           (octave === 5 && noteValue <= noteValueMap['C']);
+                });
+                break;
+            case 'level3': // Todas las notas
+                filteredNotes = notas;
+                break;
+            default:
+                filteredNotes = notas;
+        }
+        return filteredNotes;
     }
 
     // --- Inicialización ---

@@ -14,6 +14,13 @@
         <button id="soundModeBtn">Adivinar por Sonido</button>
         <button id="staffModeBtn">Adivinar por Pentagrama</button>
         <button id="fingeringModeBtn">Adivinar por Digitación</button>
+
+        <h2>Elige un nivel de dificultad:</h2>
+        <div id="difficultySelection">
+            <label><input type="radio" name="difficulty" value="level1" checked> Nivel 1 (FS3 - C4)</label>
+            <label><input type="radio" name="difficulty" value="level2"> Nivel 2 (FS3 - C5)</label>
+            <label><input type="radio" name="difficulty" value="level3"> Nivel 3 (Todas las notas)</label>
+        </div>
     </div>
 
     <div id="gameContainer" class="hidden">
@@ -34,6 +41,8 @@
         <div id="imageContainer">
             <!-- La imagen generada se mostrará aquí -->
         </div>
+        <div id="noteNameDisplay" class="hidden"></div>
+        <button id="revealNoteBtn">Revelar Nota</button>
     </div>
 
     <script src="script.js"></script>
