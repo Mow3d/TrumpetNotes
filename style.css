@@ -17,7 +17,6 @@ body {
 }
 
 #imageContainer img {
-    max-width: 300px;
     margin-top: 20px;
 }
 
@@ -35,6 +34,11 @@ body {
 
 #nextNoteBtn {
     margin-top: 20px;
+    padding: 15px 25px;
+    font-size: 1.2em;
+}
+
+.large-button {
     padding: 15px 25px;
     font-size: 1.2em;
 }
